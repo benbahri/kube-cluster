@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install docker CentOS
+      include_tasks: docker_centos.yml
+      when: ansible_os_family == "RedHat"
+    - name: install docker Debian
+      include_tasks: docker_debian.yml
+      when: ansible_os_family == "Debian"
+
+    - name: disable SELinux
+      command: setenforce 0
+
+    - name: disable SELinux on reboot
+      selinux: state=disabled
+
+    - name: Configure iptables IPv6
+      sysctl: name=net.bridge.bridge-nf-call-ip6tables value=1 state=present
+
+    - name: Configure iptables IPv4
+      sysctl: name=net.bridge.bridge-nf-call-iptables value=1 state=present
+
+    - name: install kubernetes packages on CentOS
+      include_tasks: kubernetes_centos.yml

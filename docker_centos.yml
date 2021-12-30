@@ -1,0 +1,6 @@
+---
+- name: install Docker
+  yum: name=docker state=present update_cache=true
+
+- name: start Docker
+  systemd: name=docker state=started

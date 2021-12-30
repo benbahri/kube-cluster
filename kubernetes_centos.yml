@@ -1,0 +1,14 @@
+---
+- name: add kubernetes YUM repository
+  yum_repository:
+    name: Kubernetes
+    description: Kubernetes YUM repository
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    gpgcheck: true
+
+- name: install kubelet
+  yum: name=kubelet-1.20.0 state=present update_cache=true
+
+- name: install kubeadm
+  yum: name=kubeadm-1.20.0 state=present 
